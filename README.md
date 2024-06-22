@@ -1,15 +1,10 @@
-# README
+# Axure-Sync-Server
 
-This is the [Express](https://expressjs.com) [Hello world](https://expressjs.com/en/starter/hello-world.html) example on [Render](https://render.com).
+The `local` boolean variable in `script.js` has to be set accordingly before pasting the code into an axure-object that loads the javascript on pageload.
 
-The app in this repo is deployed at [https://express.onrender.com](https://express.onrender.com).
+The server can be hosted locally or in the cloud to make requests to it. If dont use the host provided by Jarne under `https://express-axure-test.onrender.com/` then you have to change the `urlHostedServer` variable as well.
 
 ## Deployment
 
-See https://render.com/docs/deploy-node-express-app or follow the steps below:
-
-Create a new web service with the following values:
-  * Build Command: `yarn`
-  * Start Command: `node app.js`
-
-That's it! Your web service will be live on your Render URL as soon as the build finishes.
+- Build Command: `yarn`
+- Start Command: `node app.js`
