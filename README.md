@@ -6,5 +6,5 @@ The server can be hosted locally or in the cloud to make requests to it. If dont
 
 ## Deployment
 
-- Build Command: `yarn`
-- Start Command: `node app.js`
+- Build Command: `yarn` or `npm install`
+- Start Command: `node app.jsn`
