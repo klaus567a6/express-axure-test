@@ -165,6 +165,44 @@ async function getMapLocation() {
     console.error('Error fetching location:', error);
   }
 }
+
+async function setSong() {
+  let song = "";
+  let artist = "";
+  try {
+    if(window.$axure) {
+      song = $axure.getGlobalVariable('PlayingSong');
+      console.log('Song from Axure:', song);
+      artist = $axure.getGlobalVariable('PlayingArtist');
+      console.log('artist from Axure:', artist);
+    }
+    const response = await fetch(`${baseUrl}song`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ song, artist }),
+    });
+    const message = await response.text();
+    console.log('Song updated:', message);
+  } catch (error) {
+    console.error('Error setting song:', error);
+  }
+}
+
+async function getSong() {
+  try {
+    const response = await fetch(`${baseUrl}song`, { method: 'GET' });
+    const data = await response.json();
+    if (window.$axure) {
+            $axure.setGlobalVariable('PlayingSong',  data.song);
+            $axure.setGlobalVariable('PlayingArtist',  data.artist);
+    }
+    console.log('Current song:', data.song);
+  } catch (error) {
+    console.error('Error fetching song:', error);
+  }
+}
   
 // async function get() {
 //   try {

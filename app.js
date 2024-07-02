@@ -10,12 +10,17 @@ let code = "";
 let peopleInSession = [];
 let driver = "";
 let mapLocation = "default";
+let song = "No Song is playing!";
+let artist = "No Artist";
+
 
 app.get("/reset", (req, res) => {
   code = 0;
   peopleInSession = [];
   driver = "";	
   mapLocation = "default";
+  song = "No Song is playing!";
+  artist = "No Artist";
   console.log("reset successful");
   res.send("reset successful");
 });
@@ -69,6 +74,17 @@ app.post("/mapLocation", (req, res) => {
   mapLocation = req.body.destination;
   console.log("Map location updated to", mapLocation);
   res.send("Map location updated");
+});
+
+app.post("/song", (req, res) => {
+  song = req.body.song;
+  artist = req.body.artist;
+  console.log("Song updated to", song);
+  res.send("Song updated");
+});
+
+app.get("/song", (req, res) => {
+  res.json({ song: song, artist: artist });
 });
 
 const server = app.listen(port, () =>
