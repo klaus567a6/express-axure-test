@@ -18,7 +18,9 @@ app.get("/reset", (req, res) => {
 
 app.post("/code", (req, res) => {
   code = req.body.code;
+  driver = req.body.username;
   console.log("code updated to", code);
+  console.log("driver: ", driver);
   res.send("code updated");
 });
 
@@ -31,7 +33,8 @@ app.get("/peopleInSession", (req, res) => {
 });
 
 app.post("/joinSession", (req, res) => {
-  peopleInSession.push(req.body.name);
+  peopleInSession.push(req.body.username);
+  console.log("people in session:", peopleInSession);
   res.send("joined session");
 });
 

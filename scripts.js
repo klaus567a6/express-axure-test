@@ -1,14 +1,19 @@
-
 let local = true;
 let urlLocal = 'http://localhost:3001/';
 let urlHostedServer = 'https://express-axure-test.onrender.com/';
-let baseUrl = local ? urlLocal : urlHostedServer;
+let baseUrl = "";
 
 $axure.internal(function ($ax) {
   $ax.public.getGlobalVariable = $ax.getGlobalVariable = function (name) {
       return $ax.globalVariableProvider.getVariableValue(name);
   };
 });
+
+
+if (window.$axure) {
+  baseUrl = $axure.getGlobalVariable('ServerURL');
+}
+
 
 async function resetServerState() {
   try {
@@ -27,6 +32,7 @@ async function updateCode() {
   try {
     if(window.$axure) {
       code = $axure.getGlobalVariable('SessionCode');
+      username = $axure.getGlobalVariable('Username');
       console.log('Code from Axure:', code);
     }
     const response = await fetch(`${baseUrl}code`, {
@@ -34,7 +40,7 @@ async function updateCode() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ code }),
+      body: JSON.stringify({ code, username }),
     });
     const message = await response.text();
     console.log('Code updated:', message);
@@ -46,7 +52,7 @@ async function updateCode() {
 // Fetch the current code
 async function getCode() {
   try {
-    const response = await fetch(`http://localhost:3001/code`, { method: 'GET' });
+    const response = await fetch(`${baseUrl}code`, { method: 'GET' });
     const code = await response.text();
     if (window.$axure) {
             $axure.setGlobalVariable('SessionCode',  code);
@@ -69,14 +75,17 @@ async function getPeopleInSession() {
 }
 
 // Join a session
-async function joinSession(name) {
+async function joinSession() {
   try {
+    if(window.$axure) {
+      username = $axure.getGlobalVariable('Username');
+    }
     const response = await fetch(`${baseUrl}joinSession`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ name }),
+      body: JSON.stringify({ username }),
     });
     const message = await response.text();
     console.log('Joined session:', message);
