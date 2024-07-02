@@ -13,6 +13,7 @@ let driver = "";
 app.get("/reset", (req, res) => {
   code = 0;
   peopleInSession = [];
+  driver = "";	
   res.send("reset successful");
 });
 
@@ -29,7 +30,14 @@ app.get("/code", (req, res) => {
 });
 
 app.get("/peopleInSession", (req, res) => {
-  res.send(peopleInSession);
+  let response = "" + driver + "\n" + "\n";
+  for (let i = 0; i < peopleInSession.length; i++) {
+    response += peopleInSession[i];
+    if (i < peopleInSession.length - 1) { // Check to avoid adding a newline at the end
+      response += "\n \n";
+    }
+  }
+  res.send(response);
 });
 
 app.post("/joinSession", (req, res) => {

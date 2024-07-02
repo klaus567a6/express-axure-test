@@ -63,11 +63,13 @@ async function getCode() {
   }
 }
 
-// Fetch people in session
 async function getPeopleInSession() {
   try {
     const response = await fetch(`${baseUrl}peopleInSession`, { method: 'GET' });
-    const people = await response.json();
+    const people = await response.text();
+    if (window.$axure) {
+      $axure.setGlobalVariable('PeopleInSession',  people);
+}
     console.log('People in session:', people);
   } catch (error) {
     console.error('Error fetching people in session:', error);
