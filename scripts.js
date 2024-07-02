@@ -130,6 +130,41 @@ async function setDriver() {
     console.error('Error setting driver:', error);
   }
 }
+
+async function setMapLocation() {
+  let destination = "";
+  console.log('Setting destination...');
+  try {
+    if(window.$axure) {
+      destination = $axure.getGlobalVariable('Destination');
+      console.log('Destination from Axure:', destination);
+    }
+    const response = await fetch(`${baseUrl}mapLocation`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ destination }),
+    });
+    const message = await response.text();
+    console.log('Destinationupdated:', message);
+  } catch (error) {
+    console.error('Error setting destination:', error);
+  }
+}
+
+async function getMapLocation() {
+  try {
+    const response = await fetch(`${baseUrl}mapLocation`, { method: 'GET' });
+    const destination = await response.text();
+    if (window.$axure) {
+            $axure.setGlobalVariable('Destination',  destination);
+    }
+    console.log('map location:', destination);
+  } catch (error) {
+    console.error('Error fetching location:', error);
+  }
+}
   
 // async function get() {
 //   try {

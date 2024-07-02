@@ -9,11 +9,14 @@ app.use(cors());
 let code = "";
 let peopleInSession = [];
 let driver = "";
+let mapLocation = "default";
 
 app.get("/reset", (req, res) => {
   code = 0;
   peopleInSession = [];
   driver = "";	
+  mapLocation = "default";
+  console.log("reset successful");
   res.send("reset successful");
 });
 
@@ -56,6 +59,16 @@ app.post("/driver", (req, res) => {
   driver = req.body.driver;
   console.log("Driver updated to", driver);
   res.send("Driver updated");
+});
+
+app.get("/mapLocation", (req, res) => {
+  res.send(mapLocation);
+});
+
+app.post("/mapLocation", (req, res) => {
+  mapLocation = req.body.destination;
+  console.log("Map location updated to", mapLocation);
+  res.send("Map location updated");
 });
 
 const server = app.listen(port, () =>
