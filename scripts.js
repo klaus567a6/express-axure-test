@@ -63,14 +63,17 @@ async function getCode() {
   }
 }
 
+
 async function getPeopleInSession() {
   try {
     const response = await fetch(`${baseUrl}peopleInSession`, { method: 'GET' });
-    const people = await response.text();
+    const data = await response.json();
     if (window.$axure) {
-      $axure.setGlobalVariable('PeopleInSession',  people);
+      $axure.setGlobalVariable('PeopleInSession',  data.people);
+      $axure.setGlobalVariable('RolesInSession',  data.rolesinsession);
 }
-    console.log('People in session:', people);
+    console.log('People in session:', data.people);
+    console.log('Roles in session:', data.rolesinsession);
   } catch (error) {
     console.error('Error fetching people in session:', error);
   }

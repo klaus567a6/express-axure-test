@@ -12,6 +12,7 @@ let driver = "";
 let mapLocation = "default";
 let song = "No Song is playing!";
 let artist = "No Artist";
+let rolesinsession = "";
 
 
 app.get("/reset", (req, res) => {
@@ -21,6 +22,7 @@ app.get("/reset", (req, res) => {
   mapLocation = "default";
   song = "No Song is playing!";
   artist = "No Artist";
+  rolesinsession = "";
   console.log("reset successful");
   res.send("reset successful");
 });
@@ -38,14 +40,18 @@ app.get("/code", (req, res) => {
 });
 
 app.get("/peopleInSession", (req, res) => {
-  let response = "" + driver + "\n" + "\n";
+  let response1 = "" + driver + "\n" + "\n";
+  rolesinsession = "Driver" + "\n" + "\n";
   for (let i = 0; i < peopleInSession.length; i++) {
-    response += peopleInSession[i];
+    response1 += peopleInSession[i];
+    rolesinsession += "Passenger";
     if (i < peopleInSession.length - 1) { // Check to avoid adding a newline at the end
-      response += "\n \n";
+      response1 += "\n \n";
+      rolesinsession += "\n \n";
+
     }
   }
-  res.send(response);
+  res.json({people: response1, rolesinsession: rolesinsession});
 });
 
 app.post("/joinSession", (req, res) => {
