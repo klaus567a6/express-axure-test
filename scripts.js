@@ -281,6 +281,42 @@ async function setPlaylist() {
     console.error('Error setting playlist:', error);
   }
 }
+
+async function setPaused() {
+  let paused = false;
+  try {
+    if(window.$axure) {
+      paused = $axure.getGlobalVariable('Paused');
+      console.log('Paused from Axure:', paused);
+
+      
+    }
+    const response = await fetch(`${baseUrl}paused`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ paused }),
+    });
+    const message = await response.text();
+    console.log('Paused updated:', message);
+  } catch (error) {
+    console.error('Error setting paused:', error);
+  }
+}
+
+async function getPaused() {
+  try {
+    const response = await fetch(`${baseUrl}paused`, { method: 'GET' });
+    const data = await response.json();
+    if (window.$axure) {
+            $axure.setGlobalVariable('Paused',  data.paused);
+
+    }
+  } catch (error) {
+    console.error('Error fetching paused:', error);
+  }
+}
   
 // async function get() {
 //   try {

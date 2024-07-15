@@ -21,6 +21,7 @@ let Play1 = -1;
 let Play2 = -1;
 let Play3 = -1;
 let Play4 = -1;
+let paused = false;
 
 
 app.get("/reset", (req, res) => {
@@ -39,6 +40,7 @@ app.get("/reset", (req, res) => {
   Play2 = -1;
   Play3 = -1;
   Play4 = -1;
+  paused = false;
   console.log("reset successful");
   res.send("reset successful");
 });
@@ -119,7 +121,18 @@ app.post("/playlist", (req, res) => {
   Play3 = req.body.Play3;
   Play4 = req.body.Play4;
   console.log("Playlist updated to", count);
+  console.log("Play4 updated to", Play4);
   res.send("Playlist updated");
+});
+
+app.post("/paused", (req, res) => {
+  paused = req.body.paused
+  console.log("Playlist paused to", paused);
+  res.send("Paused updated");
+});
+
+app.get("/paused", (req, res) => {
+  res.json({ paused: paused });
 });
 
 app.get("/playlist", (req, res) => {
