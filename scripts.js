@@ -172,19 +172,25 @@ async function getMapLocation() {
 async function setSong() {
   let song = "";
   let artist = "";
+  let albumimage = "";
+  let lyrics = "";
   try {
     if(window.$axure) {
       song = $axure.getGlobalVariable('PlayingSong');
       console.log('Song from Axure:', song);
       artist = $axure.getGlobalVariable('PlayingArtist');
       console.log('artist from Axure:', artist);
+      albumimage = $axure.getGlobalVariable('AlbumImage');
+      console.log('albumimage from Axure:', albumimage);
+      lyrics = $axure.getGlobalVariable('Lyrics');
+      
     }
     const response = await fetch(`${baseUrl}song`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ song, artist }),
+      body: JSON.stringify({ song, artist, albumimage, lyrics }),
     });
     const message = await response.text();
     console.log('Song updated:', message);
@@ -200,10 +206,79 @@ async function getSong() {
     if (window.$axure) {
             $axure.setGlobalVariable('PlayingSong',  data.song);
             $axure.setGlobalVariable('PlayingArtist',  data.artist);
+            $axure.setGlobalVariable('AlbumImage',  data.albumimage);
     }
     console.log('Current song:', data.song);
   } catch (error) {
     console.error('Error fetching song:', error);
+  }
+}
+
+async function getLyrics() {
+  try {
+    const response = await fetch(`${baseUrl}lyrics`, { method: 'GET' });
+    const data = await response.json();
+    if (window.$axure) {
+            $axure.setGlobalVariable('Lyrics',  data.lyrics);
+            $axure.setGlobalVariable('PlayingSong',  data.song);
+
+    }
+  } catch (error) {
+    console.error('Error fetching lyrics:', error);
+  }
+}
+
+async function getPlaylist() {
+  try {
+    const response = await fetch(`${baseUrl}playlist`, { method: 'GET' });
+    const data = await response.json();
+    if (window.$axure) {
+            $axure.setGlobalVariable('count',  data.count);
+            $axure.setGlobalVariable('Play0',  data.Play0);
+            $axure.setGlobalVariable('Play1',  data.Play1);
+            $axure.setGlobalVariable('Play2',  data.Play2);
+            $axure.setGlobalVariable('Play3',  data.Play3);
+            $axure.setGlobalVariable('Play4',  data.Play4);
+
+    }
+  } catch (error) {
+    console.error('Error fetching playlist:', error);
+  }
+}
+
+async function setPlaylist() {
+  let count = 0;
+  let Play0 = 0;
+  let Play1 = 0;
+  let Play2 = 0;
+  let Play3 = 0;
+  let Play4 = 0;
+  try {
+    if(window.$axure) {
+      count = $axure.getGlobalVariable('count');
+      console.log('count from Axure:', count);
+      Play0 = $axure.getGlobalVariable('Play0');
+      console.log('Play0 from Axure:', Play0);
+      Play1 = $axure.getGlobalVariable('Play1');
+      console.log('Play1 from Axure:', Play1);
+      Play2 = $axure.getGlobalVariable('Play2');
+      console.log('Play2 from Axure:', Play2);
+      Play3 = $axure.getGlobalVariable('Play3');
+      console.log('Play3 from Axure:', Play3);
+      Play4 = $axure.getGlobalVariable('Play4');
+      console.log('Play4 from Axure:', Play4);
+    }
+    const response = await fetch(`${baseUrl}playlist`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ count, Play0, Play1, Play2, Play3, Play4 }),
+    });
+    const message = await response.text();
+    console.log('playlist updated:', message);
+  } catch (error) {
+    console.error('Error setting playlist:', error);
   }
 }
   

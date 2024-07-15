@@ -13,6 +13,14 @@ let mapLocation = "default";
 let song = "No Song is playing!";
 let artist = "No Artist";
 let rolesinsession = "";
+let albumimage = "";
+let lyrics = "";
+let count = 0;
+let Play0 = -1;
+let Play1 = -1;
+let Play2 = -1;
+let Play3 = -1;
+let Play4 = -1;
 
 
 app.get("/reset", (req, res) => {
@@ -23,6 +31,14 @@ app.get("/reset", (req, res) => {
   song = "No Song is playing!";
   artist = "No Artist";
   rolesinsession = "";
+  albumimage = "";
+  lyrics = "";
+  count = 0;
+  Play0 = -1;
+  Play1 = -1;
+  Play2 = -1;
+  Play3 = -1;
+  Play4 = -1;
   console.log("reset successful");
   res.send("reset successful");
 });
@@ -85,12 +101,33 @@ app.post("/mapLocation", (req, res) => {
 app.post("/song", (req, res) => {
   song = req.body.song;
   artist = req.body.artist;
+  albumimage = req.body.albumimage;
+  lyrics = req.body.lyrics;
   console.log("Song updated to", song);
   res.send("Song updated");
 });
 
 app.get("/song", (req, res) => {
-  res.json({ song: song, artist: artist });
+  res.json({ song: song, artist: artist, albumimage: albumimage });
+});
+
+app.post("/playlist", (req, res) => {
+  count = req.body.count;
+  Play0 = req.body.Play0;
+  Play1 = req.body.Play1;
+  Play2 = req.body.Play2;
+  Play3 = req.body.Play3;
+  Play4 = req.body.Play4;
+  console.log("Playlist updated to", count);
+  res.send("Playlist updated");
+});
+
+app.get("/playlist", (req, res) => {
+  res.json({ count: count, Play0: Play0, Play1: Play1, Play2: Play2, Play3: Play3, Play4: Play4 });
+});
+
+app.get("/lyrics", (req, res) => {
+  res.json({ lyrics: lyrics, song: song });
 });
 
 const server = app.listen(port, () =>
